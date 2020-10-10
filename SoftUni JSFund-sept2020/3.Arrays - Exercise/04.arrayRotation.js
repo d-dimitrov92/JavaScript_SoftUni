@@ -1,14 +1,9 @@
 function arrRot(arr, num){
-    let newArr = [];
-    for (let i = 0; i < arr.length; i++) {
-        if(i >= num){
-            newArr.push(arr[i]);
+    for (let i = 0; i < num; i++) {
+        const el = arr.shift();
+        arr.push(el);
         }
-    }
-    for (let j = 0; j < num; j++) {
-        newArr.push(arr[j])
-    }
-    console.log(newArr.join(' '));
+    console.log(arr.join(' '));
 }
 
 arrRot([2, 4, 15, 31], 5);
