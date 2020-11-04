@@ -14,7 +14,6 @@ function movingTarget(array) {
                     command = array.shift();
                     break;
                 }
-
                 targets[index] -= num;
                 if (targets[index] <= 0) {
                     targets.splice(index, 1);
