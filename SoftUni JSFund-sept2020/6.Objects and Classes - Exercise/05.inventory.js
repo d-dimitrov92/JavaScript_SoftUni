@@ -5,7 +5,7 @@ function inv(array) {
         let [name, level, items] = line.split(' / ');
         items = items.split(', ').sort((a, b) => a.localeCompare(b))
         currentHero.Hero = name;
-        currentHero.level = level;
+        currentHero.level = Number(level);
         currentHero.items = items;
         
         heroes.push(currentHero);
