@@ -1,16 +1,16 @@
 function odd(array) {
     let words = array.toLowerCase().split(' ');
-    let wordsObj = new Map();
+    let wordsMap = new Map();
     for (const word of words) {
-        wordsObj.set(word, 0);
+        wordsMap.set(word, 0);
     }
     for (const word of words) {
-        if (wordsObj.has(word)) {
-            wordsObj.set(word, wordsObj.get(word) + 1)
+        if (wordsMap.has(word)) {
+            wordsMap.set(word, wordsMap.get(word) + 1)
         }
     }
-    let keys = Array.from(wordsObj.keys())
-        .filter(x => wordsObj.get(x) % 2 != 0);
+    let keys = Array.from(wordsMap.keys())
+        .filter(x => wordsMap.get(x) % 2 != 0);
     console.log(keys.join(' '));
 }
 
