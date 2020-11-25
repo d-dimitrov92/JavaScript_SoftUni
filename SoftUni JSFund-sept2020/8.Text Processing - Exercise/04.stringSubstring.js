@@ -1,8 +1,10 @@
 function words(word, string) {
-    let compWord = word.toLowerCase();
-    string = string.toLowerCase();
-    if(string.includes(compWord)){
+    word = word.toLowerCase();
+    string = string.toLowerCase().split(' ');
+    if (string.includes(word)) {
         console.log(word);
-        return
     } else console.log(`${word} not found!`);
 }
+
+words('javascript',
+    'JavaScript is the best programming language');
