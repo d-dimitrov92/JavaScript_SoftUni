@@ -1,7 +1,7 @@
 function bar(array) {
     let total = 0;
     for (const line of array) {
-        let validPattern = /%(?<name>[A-Z][a-z]+)%([^\$\|%\.]+)?<(?<product>[^\$\|%\.]+)>([^\$\|%\.]+)?\|(?<quantity>\d+)\|([^\$\|%\.\d]+)?(?<price>\d+(\.\d+)?)\$/g;
+        let validPattern = /%(?<name>[A-Z][a-z]+)%([^\$\|%\.]+)?<(?<product>\w+)>([^\$\|%\.]+)?\|(?<quantity>\d+)\|([^\$\|%\.\d]+)?(?<price>\d+(\.\d+)?)\$/g;
         let match = validPattern.exec(line);
         if (match) {
             let totalForPerson = Number(match.groups.quantity) * Number(match.groups.price);
