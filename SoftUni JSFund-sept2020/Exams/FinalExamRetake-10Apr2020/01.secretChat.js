@@ -1,9 +1,9 @@
 function chat(array) {
     let actions = {
         InsertSpace(text, index) {
-            let first = text.slice(0, index);
-            let second = text.slice(index);
-            text = first + ' ' + second;
+            //let first = text.slice(0, index);
+            //let second = text.slice(index);
+            text = text.substring(0, Number(index)) + ' ' + text.substring(Number(index));
             console.log(text);
             return text;
         },
@@ -12,19 +12,20 @@ function chat(array) {
                 let index = text.indexOf(substring);
                 let first = text.slice(0, index);
                 let end = index + substring.length;
-                let second = text.slice(index, end).split('').reverse().join('');
                 let third = text.slice(end);
+                let second = text.slice(index, end).split('').reverse().join('');
                 if (third.length <= 0) {
                     text = first + second;
                     console.log(text);
                     return text;
                 } else {
-                    text = first + second + third;
+                    text = first + third + second;
                     console.log(text);
                     return text;
                 }
             } else {
                 console.log('error');
+                return text;
             }
         },
         ChangeAll(text, substring, replacement) {
@@ -46,10 +47,22 @@ function chat(array) {
 }
 
 
+// chat([
+//     'heVVodar!gniV',
+//     'ChangeAll:|:V:|:l',
+//     'Reverse:|:!gnil',
+//     'InsertSpace:|:5',
+//     'Reveal'
+// ]);
+
+//console.log('---');
+
 chat([
-    'heVVodar!gniV',
-    'ChangeAll:|:V:|:l',
-    'Reverse:|:!gnil',
-    'InsertSpace:|:5',
+    'Hiware?uiy',
+    'ChangeAll:|:i:|:o',
+    'Reverse:|:?uoy',
+    'Reverse:|:jd',
+    'InsertSpace:|:3',
+    'InsertSpace:|:7',
     'Reveal'
-]);
+  ]);
