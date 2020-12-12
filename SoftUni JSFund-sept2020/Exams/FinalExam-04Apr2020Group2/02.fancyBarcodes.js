@@ -7,10 +7,6 @@ function solve(array) {
         let match = line.match(pattern);
         if (match != null) {
             match = match.join('');
-            if(match != line){
-                console.log('Invalid barcode');
-                continue;
-            }
             let groupMatch = match.match(groupPattern);
             let group = '00';
             if(groupMatch != null){
@@ -19,7 +15,6 @@ function solve(array) {
             } else {
                 console.log(`Product group: ${group}`);
             }
-            
         } else {
             console.log('Invalid barcode');
         }
@@ -31,7 +26,7 @@ solve(['3', '@#FreshFisH@#', '@###Bre054545454a0D@###', '@##Che46sE@##']);
 console.log('---');
 solve([
     '6',
-    '@###Val1d1teM@###',
+    '@###Val1d1teM@###dd',
     '@#ValidIteM@#',
     '##InvaliDiteM##',
     '@InvalidIteM@',
