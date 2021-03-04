@@ -14,7 +14,7 @@ async function solution() {
 
 function createCard(t) {
     const main = document.getElementById('main')
-    const hiddenP = createElement('p', undefined); //hidden element - need to get info
+    const hiddenP = createElement('p', undefined);
     const hiddenDiv = createElement('div', undefined, 'extra');
     hiddenDiv.appendChild(hiddenP);
 
