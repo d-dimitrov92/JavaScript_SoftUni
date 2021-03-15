@@ -258,7 +258,5 @@ describe('E2E tests', function () {
 
             expect(request.method()).to.equal('DELETE');
         });
-
     });
-
 });

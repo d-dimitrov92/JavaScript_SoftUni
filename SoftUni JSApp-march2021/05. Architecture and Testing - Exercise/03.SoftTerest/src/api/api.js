@@ -37,23 +37,23 @@ function createOptions(method = 'get', data) {
     return result;
 };
 
-async function get(url) {
+export async function get(url) {
     return request(url, createOptions());
 };
 
-async function post(url, data) {
+export async function post(url, data) {
     return request(url, createOptions('post', data));
 };
 
-async function put(url, data) {
+export async function put(url, data) {
     return request(url, createOptions('put', data));
 };
 
-async function del(url) {
+export async function del(url) {
     return request(url, createOptions('delete'))
 };
 
-async function login(email, password) {
+export async function login(email, password) {
     const response = await post(settings.host + '/users/login', { email, password });
 
     sessionStorage.setItem('authToken', response.accessToken);
@@ -63,20 +63,20 @@ async function login(email, password) {
     return response;
 }
 
-async function register(email, password) {
+export async function register(email, password) {
     const response = await post(settings.host + '/users/register', { email, password });
 
-    sessionStorage.setItem('userToken', response.accessToken);
+    sessionStorage.setItem('authToken', response.accessToken);
     sessionStorage.setItem('email', response.email);
     sessionStorage.setItem('userId', response._id);
 
     return response;
 }
 
-async function logout() {
+export async function logout() {
     const response = await get(settings.host + '/users/logout');
-    
-    sessionStorage.removeItem('userToken');
+
+    sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('userId');
     return response;
