@@ -1,4 +1,9 @@
-import { setupHome } from './views/home.js'
+import { setupHome } from './views/home.js';
+import { setupLogin } from './views/login.js';
+import { setupRegister } from './views/register.js';
+import { setupDashboard } from './views/dashboard.js';
+import { setupDetails } from './views/details.js';
+import { setupCreate } from './views/create.js';
 
 const main = document.querySelector('main');
 const nav = document.querySelector('nav')
@@ -10,7 +15,7 @@ const navigation = {
     goTo
 };
 
-registerView('home', document.getElementById('home-page'), setupHome, 'homeLink')
+registerView('home', document.getElementById('home-page'), setupHome, 'homeLink');
 
 setupNavigation();
 
@@ -26,7 +31,7 @@ function registerView(name, section, setup, linkId) {
 
 async function goTo(name, ...params) {
     main.innerHTML = ''
-    const view = vews[name];
+    const view = views[name];
     const section = await view(...params);
     main.appendChild(section);
 }
