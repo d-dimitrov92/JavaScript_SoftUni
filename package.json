@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/d-dimitrov92/JavaScript_SoftUni#readme",
   "dependencies": {
-    "chai": "^4.3.0",
-    "mocha": "^8.2.1"
+    "chai": "^4.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2"
   }
 }
