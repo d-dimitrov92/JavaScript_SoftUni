@@ -31,33 +31,3 @@ async function sendMessage(message) {
     });
     const data = await response.json();
 }
-
-const { chromium } = require('playwright-chromium');
-const { expect } = require('chai');
-const { describe } = require('mocha')
-
-let browser, page;
-
-describe('E2E test', () => {
-    this.timeout(6000);
-
-    before(async () => {
-        browser = await chromium.launch();
-    });
-
-    after(async () => {
-        await browser.close();
-    });
-
-    beforeEach(async () => {
-        page = await browser.newPage();
-    });
-
-    afterEach(async () => {
-        await page.close();
-    })
-
-    it('1', () => {
-        
-    });
-});
