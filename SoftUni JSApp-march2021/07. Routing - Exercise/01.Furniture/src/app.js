@@ -1,6 +1,7 @@
 import page from '../node_modules/page/page.mjs';
 import { render } from '../node_modules/lit-html/lit-html.js';
 
+import { logout } from "./api/data.js";
 import { dashboardPage } from './views/dashboard.js';
 import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
@@ -15,17 +16,38 @@ window.api = api;
 
 const main = document.querySelector('.container')
 
-page('/', renderMiddleware, dashboardPage);
-page('/create', renderMiddleware, createPage);
-page('/details/:id', renderMiddleware, detailsPage);
-page('/edit/:id', renderMiddleware, editPage);
-page('/login', renderMiddleware, loginPage);
-page('/register', renderMiddleware, registerPage);
-page('/my-furniture', renderMiddleware, myPage);
+page('/', decorateContext, dashboardPage);
+page('/create', decorateContext, createPage);
+page('/details/:id', decorateContext, detailsPage);
+page('/edit/:id', decorateContext, editPage);
+page('/login', decorateContext, loginPage);
+page('/register', decorateContext, registerPage);
+page('/my-furniture', decorateContext, myPage);
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await logout();
+    setUserNav();
+    page.redirect('/');
+})
+
+
+setUserNav();
 
 page.start();
 
-function renderMiddleware(ctx, next) {
+function decorateContext(ctx, next) {
     ctx.render = (content) => render(content, main);
+    ctx.setUserNav = setUserNav;
     next();
+}
+
+function setUserNav() {
+    const userId = sessionStorage.getItem('userId');
+    if (userId != null) {
+        document.getElementById('user').style.display = 'inline-block';
+        document.getElementById('guest').style.display = 'none';
+    } else {
+        document.getElementById('user').style.display = 'none';
+        document.getElementById('guest').style.display = 'inline-block';
+    }
 }

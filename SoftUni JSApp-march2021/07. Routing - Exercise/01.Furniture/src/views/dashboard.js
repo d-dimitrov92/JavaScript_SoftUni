@@ -57,5 +57,5 @@ const dashboardTemplate = () => html`
 export async function dashboardPage(ctx) {
     console.log('dashboard');
 
-    console.log(ctx);
+    ctx.render(dashboardTemplate())
 }
