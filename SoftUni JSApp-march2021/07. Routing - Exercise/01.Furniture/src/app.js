@@ -1,4 +1,5 @@
 import page from '../node_modules/page/page.mjs';
+import { render } from '../node_modules/lit-html/lit-html.js';
 
 import { dashboardPage } from './views/dashboard.js';
 import { createPage } from './views/create.js';
@@ -8,12 +9,23 @@ import { loginPage } from './views/login.js';
 import { registerPage } from './views/register.js';
 import { myPage } from './views/myFurniture.js';
 
-page('/', dashboardPage);
-page('/create', createPage);
-page('/details/:id', detailsPage);
-page('/edit/:id', editPage);
-page('/login', loginPage);
-page('/register', registerPage);
-page('/myFurniture', myPage);
+import * as api from './api/data.js';
+
+window.api = api;
+
+const main = document.querySelector('.container')
+
+page('/', renderMiddleware, dashboardPage);
+page('/create', renderMiddleware, createPage);
+page('/details/:id', renderMiddleware, detailsPage);
+page('/edit/:id', renderMiddleware, editPage);
+page('/login', renderMiddleware, loginPage);
+page('/register', renderMiddleware, registerPage);
+page('/my-furniture', renderMiddleware, myPage);
 
 page.start();
+
+function renderMiddleware(ctx, next) {
+    ctx.render = (content) => render(content, main);
+    next();
+}
