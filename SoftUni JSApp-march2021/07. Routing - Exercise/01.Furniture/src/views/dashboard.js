@@ -15,7 +15,6 @@ const dashboardTemplate = (items) => html`
 
 export async function dashboardPage(ctx) {
     const furnitures = await getFurniture();
-    console.log(furnitures);
 
     ctx.render(dashboardTemplate(furnitures))
 }
