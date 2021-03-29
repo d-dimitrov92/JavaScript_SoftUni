@@ -1,6 +1,7 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 
 import { getMemeById, editMeme } from '../api/data.js';
+import { notify } from "../notification.js";
 
 const editTemplate = (meme, onSubmit) => html`
 <section id="edit-meme">
@@ -23,7 +24,7 @@ const editTemplate = (meme, onSubmit) => html`
 export async function editPage(ctx) {
     const memeId = ctx.params.id;
     const meme = await getMemeById(memeId)
-    
+
     ctx.render(editTemplate(meme, onSubmit));
 
     async function onSubmit(event) {
@@ -32,9 +33,16 @@ export async function editPage(ctx) {
         const title = formData.get('title');
         const description = formData.get('description');
         const imageUrl = formData.get('imageUrl');
+        try {
+            if (!title || !description || !imageUrl) {
+                throw new Error('All fields are required!')
+            }
 
-        await editMeme(memeId, { title, description, imageUrl });
+            await editMeme(memeId, { title, description, imageUrl });
 
-        ctx.page.redirect('/details/' + memeId);
+            ctx.page.redirect('/details/' + memeId);
+        } catch (err) {
+            notify(err.message)
+        }
     }
 }

@@ -17,7 +17,7 @@ const myMemesTemplate = (userMemes, username, email, memesCount, gender) => html
         <!-- Display : All created memes by this user (If any) -->
         ${userMemes.map(m => userMeme(m))}
         <!-- Display : If user doesn't have own memes  -->
-        ${userMemes == 0 ? html`<p class="no-memes">No memes in database.</p>` : ''}
+        ${memesCount == 0 ? html`<p class="no-memes">No memes in database.</p>` : ''}
     </div>
 </section>`;
 
@@ -35,6 +35,6 @@ export async function profilePage(ctx) {
     const gender = sessionStorage.getItem('gender');
     const userMemes = await getMyMemes(userId);
     const memesCount = userMemes.length;
-    
+
     ctx.render(myMemesTemplate(userMemes, username, email, memesCount, gender));
 }
