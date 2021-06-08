@@ -25,8 +25,7 @@ async function init() {
         req.storage = {
             getAll,
             getById,
-            create,
-            edit
+            create
         };
         next();
     };
@@ -39,31 +38,12 @@ async function getAll() {
 }
 
 async function getById(id) {
-    const cube = data[id];
-    if (cube) {
-        return Object.assign({}, { id }, cube);
-    } else {
-        return undefined;
-    }
+    return data[id];
 }
 
 async function create(cube) {
     const id = uniqid();
     data[id] = cube;
-
-    await persist();
-}
-
-async function edit(id, cube) {
-    if(!data[id]){
-        throw new ReferenceError('No such ID in database.')
-    }
-    data[id] = cube;
-
-    await persist();
-}
-
-async function persist() {
     try {
         await fs.writeFile('./models/data.json', JSON.stringify(data, null, 2));
         console.log('>>> entry created');
