@@ -1,11 +1,6 @@
 const Cube = require('../models/Cube');
-const fs = require('fs').promises;
-const uniqid = require('uniqid');
-
-let data = {};
 
 //Model structure
-
 /* 
     {
         "name": "string",
@@ -16,11 +11,6 @@ let data = {};
 */
 
 async function init() {
-    try {
-        data = JSON.parse(await fs.readFile('./models/data.json'));
-    } catch (err) {
-        console.error('Error reading file from database.');
-    }
 
     return (req, res, next) => {
         req.storage = {
@@ -34,28 +24,29 @@ async function init() {
 }
 
 async function getAll(query) {
-    let cubes = Object
-    .entries(data)
-    .map(([id, v]) => Object.assign({}, { id }, v));
+    const options = {};
 
     //filter cubes by query params
-    if(query.search) {
-        cubes = cubes.filter(c => c.name.toLowerCase().includes(query.search.toLowerCase()));
+    if (query.search) {
+        options.name = { $regex: query.search, $options: 'i' };
     }
-    if(query.from) {
-        cubes = cubes.filter(c => c.difficulty >= Number(query.from));
+    if (query.from) {
+        options.difficulty = { $gte: Number(query.from) };
     }
-    if(query.to){
-        cubes = cubes.filter(c => c.difficulty <= Number(query.to));
+    if (query.to) {
+        options.difficulty = options.difficulty || {};
+        options.difficulty.$lte = Number(query.to);
     }
 
-    return cubes
+    const cubes = Cube.find(options).lean();
+
+    return cubes;
 }
 
 async function getById(id) {
-    const cube = data[id];
+    const cube = await Cube.findById(id).lean();
     if (cube) {
-        return Object.assign({}, { id }, cube);
+        return cube;
     } else {
         return undefined;
     }
@@ -67,21 +58,15 @@ async function create(cube) {
 }
 
 async function edit(id, cube) {
-    if(!data[id]){
+    const existing = await Cube.findById(id)
+
+    if (!existing) {
         throw new ReferenceError('No such ID in database.')
     }
-    data[id] = cube;
 
-    await persist();
-}
+    Object.assign(existing, cube);
 
-async function persist() {
-    try {
-        await fs.writeFile('./models/data.json', JSON.stringify(data, null, 2));
-        console.log('>>> entry created');
-    } catch (err) {
-        console.error('Error writing out database.');
-    }
+    return existing.save();
 }
 
 module.exports = {
