@@ -1,5 +1,5 @@
-document.querySelector('.cube-list').addEventListener('click', (e) => {
-    const target = e.target;
+document.querySelector('.cube-list').addEventListener('click', (ev) => {
+    const target = ev.target;
     if (target.classList.contains('more')) {
         const desc = target.parentNode.querySelector('.cube-description');
         if(desc.style.display == 'block'){

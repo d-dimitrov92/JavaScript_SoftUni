@@ -1,3 +1,4 @@
+const Cube = require('../models/Cube');
 const fs = require('fs').promises;
 const uniqid = require('uniqid');
 
@@ -32,10 +33,23 @@ async function init() {
     };
 }
 
-async function getAll() {
-    return Object
-        .entries(data)
-        .map(([id, v]) => Object.assign({}, { id }, v))
+async function getAll(query) {
+    let cubes = Object
+    .entries(data)
+    .map(([id, v]) => Object.assign({}, { id }, v));
+
+    //filter cubes by query params
+    if(query.search) {
+        cubes = cubes.filter(c => c.name.toLowerCase().includes(query.search.toLowerCase()));
+    }
+    if(query.from) {
+        cubes = cubes.filter(c => c.difficulty >= Number(query.from));
+    }
+    if(query.to){
+        cubes = cubes.filter(c => c.difficulty <= Number(query.to));
+    }
+
+    return cubes
 }
 
 async function getById(id) {
@@ -48,10 +62,8 @@ async function getById(id) {
 }
 
 async function create(cube) {
-    const id = uniqid();
-    data[id] = cube;
-
-    await persist();
+    const record = new Cube(cube);
+    record.save();
 }
 
 async function edit(id, cube) {

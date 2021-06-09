@@ -24,6 +24,7 @@ async function start() {
 
     // setup static files folder
     app.use('/static', express.static('static'));
+    app.use('/js', express.static('static'));
 
     app.use(express.urlencoded({ extended: false })); // need for parse form from stream to data (Body Parser)
 
