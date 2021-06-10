@@ -1,4 +1,5 @@
 const Cube = require('../models/Cube');
+const Comment = require('../models/Comment');
 
 //Model structure
 /* 
@@ -17,7 +18,8 @@ async function init() {
             getAll,
             getById,
             create,
-            edit
+            edit,
+            createComment
         };
         next();
     };
@@ -44,7 +46,7 @@ async function getAll(query) {
 }
 
 async function getById(id) {
-    const cube = await Cube.findById(id).lean();
+    const cube = await Cube.findById(id).populate('comments').lean();
     if (cube) {
         return cube;
     } else {
@@ -69,9 +71,24 @@ async function edit(id, cube) {
     return existing.save();
 }
 
+async function createComment(cubeId, comment) {
+    const cube = await Cube.findById(cubeId)
+
+    if (!cube) {
+        throw new ReferenceError('No such ID in database.')
+    }
+
+    const newComment = new Comment(comment);
+    await newComment.save();
+
+    cube.comments.push(newComment);
+    cube.save();
+}
+
 module.exports = {
     init,
     getAll,
     getById,
-    create
+    create,
+    createComment
 };
