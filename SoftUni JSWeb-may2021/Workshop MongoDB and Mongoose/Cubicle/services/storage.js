@@ -54,7 +54,7 @@ async function getById(id) {
 
 async function create(cube) {
     const record = new Cube(cube);
-    record.save();
+    await record.save();
 }
 
 async function edit(id, cube) {
