@@ -3,33 +3,6 @@ const Comment = require('../models/Comment');
 const Accessory = require('../models/Accessory');
 
 
-//Model structure
-/* 
-    {
-        "name": "string",
-        "description": "string",
-        "imageUrl": "string",
-        "difficulty": "number"
-    }
-*/
-
-async function init() {
-
-    return (req, res, next) => {
-        req.storage = {
-            getAll,
-            getById,
-            create,
-            edit,
-            createComment,
-            createAccessory,
-            getAllAccessories,
-            attachSticker
-        };
-        next();
-    };
-}
-
 async function getAll(query) {
     const options = {};
 
@@ -65,7 +38,7 @@ async function create(cube) {
 }
 
 async function edit(id, cube) {
-    const existing = await Cube.findById(id)
+    const existing = await Cube.findById(id);
 
     if (!existing) {
         throw new ReferenceError('No such ID in database.')
@@ -90,15 +63,6 @@ async function createComment(cubeId, comment) {
     cube.save();
 }
 
-async function getAllAccessories(existing) {
-    return Accessory.find({_id: { $nin: existing}});
-}
-
-async function createAccessory(accessory) {
-    const record = new Accessory(accessory);
-    return record.save();
-}
-
 async function attachSticker(cubeId, stickerId) {
     const cube = await Cube.findById(cubeId);
     const sticker = await Accessory.findById(stickerId);
@@ -112,12 +76,10 @@ async function attachSticker(cubeId, stickerId) {
 }
 
 module.exports = {
-    init,
     getAll,
+    edit,
     getById,
     create,
     createComment,
-    createAccessory,
-    getAllAccessories,
     attachSticker
 };

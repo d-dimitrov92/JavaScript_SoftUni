@@ -1,5 +1,8 @@
 const express = require('express');
 const hbs = require('express-handlebars');
+const cookieParser = require('cookie-parser');
+
+const auth = require('../middlewares/auth')
 
 module.exports = async (app) => {
     // Handlebars setup
@@ -13,4 +16,7 @@ module.exports = async (app) => {
     app.use('/js', express.static('js'));
 
     app.use(express.urlencoded({ extended: false })); // need for parse form from stream to data (Body Parser)
+
+    app.use(cookieParser());
+    app.use(auth());
 }
