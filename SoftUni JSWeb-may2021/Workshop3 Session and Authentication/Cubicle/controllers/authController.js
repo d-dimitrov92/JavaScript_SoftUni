@@ -22,11 +22,10 @@ router.get('/login', (req, res) => {
     res.render('login', { title: 'Login' });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     try {
-        req.auth.login(req.body);
-        res.redirect('/auth/login');
-        //res.redirect('/products');
+        await req.auth.login(req.body);
+        res.redirect('/products');
     } catch (err) {
         const ctx = {
             title: 'Login',
