@@ -4,13 +4,13 @@ const { isGuest } = require('../middlewares/guards');
 
 router.get('/register', isGuest(), (req, res) => {
     res.render('user/register');
-    console.log(req.userData);
 })
 
 router.post(
     '/register',
     isGuest(),
     body('email', 'Invalid email').isEmail(),
+    body('username').isLength({ min: 3 }).withMessage('Username must be at least 3 chars long').bail(),
     body('password')
         .isLength({ min: 5 }).withMessage('Password must be at least 5 chars long').bail()
         .matches(/[a-zA-Z0-9]/).withMessage('Password must contains only english letters and numbers'),
