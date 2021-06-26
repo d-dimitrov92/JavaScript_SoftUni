@@ -3,6 +3,7 @@ const hbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 
 const authMiddleware = require('../middlewares/auth');
+const storageMiddleware = require('../middlewares/storage');
 
 module.exports = (app) => {
     app.engine('hbs', hbs({
@@ -18,16 +19,16 @@ module.exports = (app) => {
     app.use(authMiddleware());
 
     app.use((req, res, next) => {
-        if(!req.url.includes('favicon')){
+        if (!req.url.includes('favicon')) {
             console.log('>>>', req.method, req.url);
         }
 
         if (req.user) {
             console.log('Known user', req.user.username);
         }
-
+         
         next();
     });
 
-    //TODO - add storage middleware
+    app.use(storageMiddleware());
 }
