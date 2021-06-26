@@ -6,8 +6,7 @@ router.get('/register', isGuest(), (req, res) => {
     res.render('register');
 })
 
-router.post(
-    '/register',
+router.post('/register',
     isGuest(),
     body('username')
         .isLength({ min: 5 }).withMessage('Username must be atleast 5 chars long')
@@ -19,7 +18,7 @@ router.post(
         if (value != req.body.password) {
             throw new Error('Passwords dont match');
         }
-        return true
+        return true;
     }),
     async (req, res) => {
         const { errors } = validationResult(req);
@@ -31,7 +30,7 @@ router.post(
 
             await req.auth.register(req.body.username, req.body.password);
 
-            res.redirect('/'); //TODO change redirect location
+            res.redirect('/');
         } catch (err) {
             console.log(err);
             const ctx = {
