@@ -69,6 +69,7 @@ function parseToken(req, res) {
         try {
             const userData = jwt.verify(token, TOKEN_SECRET);
             req.user = userData;
+            res.locals.user = userData;
 
         } catch (err) {
             console.log(req.user);
